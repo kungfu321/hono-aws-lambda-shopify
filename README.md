@@ -1,14 +1,35 @@
-# Welcome to your CDK TypeScript project
+# Hono AWS Lambda Shopify Integration
 
-This is a blank project for CDK development with TypeScript.
+This project integrates Shopify with AWS Lambda using Hono framework and AWS CDK for infrastructure deployment.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Project Overview
 
-## Useful commands
+- **Shopify Admin API**: Connect to Shopify stores via the Admin API
+- **Hono Framework**: Fast, lightweight web application framework
+- **AWS Lambda**: Serverless compute service
+- **DynamoDB**: NoSQL database for storing shop credentials and user data
+- **SST**: Serverless Stack framework for streamlined AWS deployments
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+## Architecture
+
+The application follows a modular architecture:
+
+- **API Layer**: Hono framework for handling HTTP requests
+- **Service Layer**: Business logic implementation
+- **Data Layer**: DynamoDB for persistent storage
+- **Integration Layer**: Shopify Admin API client
+
+## Project Structure
+
+```
+├── app/
+│   ├── modules/       # Feature modules (users, etc.)
+│   │   └── users/     # User management endpoints
+│   └── libs/          # Shared libraries
+│       ├── shopify/   # Shopify API integration
+│       ├── dynamodb/  # DynamoDB operations
+│       └── secrets/   # AWS Secrets Manager utilities
+├── script/            # Build and deployment scripts
+├── sst.config.ts      # SST configuration
+└── tsconfig.json      # TypeScript configuration
+```
