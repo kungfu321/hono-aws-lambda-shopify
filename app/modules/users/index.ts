@@ -14,7 +14,7 @@ import {
 const TABLE_NAME = process.env.USERS_TABLE_NAME || 'Users';
 
 // Create Hono app
-const app = new Hono();
+const app = new Hono().basePath('/users');
 
 app.get('/:id',
   zValidator('param', UserParamSchema),

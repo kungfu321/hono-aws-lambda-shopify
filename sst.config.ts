@@ -15,9 +15,61 @@ export default $config({
     };
   },
   async run() {
-    new sst.aws.Function("UserFunction", {
-      url: true,
-      handler: "app/modules/users/index.handler",
+    const sessionTable = sst.aws.Dynamo.get("SessionTable", "app-dev-session-table");
+
+    const api = new sst.aws.ApiGatewayV1("MyApi");
+
+    const userPool = new sst.aws.CognitoUserPool("MyUserPool");
+
+    const myAuthorizer = api.addAuthorizer({
+      name: "myAuthorizer",
+      userPools: [userPool.arn]
     });
+
+    api.route("GET /users/{id}", {
+      handler: "app/modules/users/index.handler",
+      link: [sessionTable],
+    }, {
+      auth: {
+        cognito: {
+          authorizer: myAuthorizer.id
+        }
+      }
+    });
+
+    api.route("PUT /users/{id}", {
+      handler: "app/modules/users/index.handler",
+      link: [sessionTable],
+    }, {
+      auth: {
+        cognito: {
+          authorizer: myAuthorizer.id
+        }
+      }
+    });
+
+    api.route("POST /users", {
+      handler: "app/modules/users/index.handler",
+      link: [sessionTable],
+    }, {
+      auth: {
+        cognito: {
+          authorizer: myAuthorizer.id
+        }
+      }
+    });
+
+    api.route("DELETE /users/{id}", {
+      handler: "app/modules/users/index.handler",
+      link: [sessionTable],
+    }, {
+      auth: {
+        cognito: {
+          authorizer: myAuthorizer.id
+        }
+      }
+    });
+
+    api.deploy();
   },
 });

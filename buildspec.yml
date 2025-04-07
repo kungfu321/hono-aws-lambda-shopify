@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - npx yarn
+  build:
+    commands:
+      - npx sst@3.12.3 deploy --stage production
