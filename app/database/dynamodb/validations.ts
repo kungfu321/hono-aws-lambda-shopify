@@ -31,7 +31,6 @@ export const validateProjection = (projection?: Projection) => projectionSchema.
 export const validateFilter = (filter?: Filter) => filterSchema.parse(filter);
 export const validateLimit = (limit?: Limit) => limitSchema.parse(limit);
 
-
 export const buildFilterExpression = (filter: Record<string, any>) => {
   const keys = Object.keys(filter);
   const expression = keys.map((key) => `#${key} = :${key}`).join(" AND ");
